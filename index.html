@@ -11,7 +11,7 @@
         .btn { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; }
         .btn:hover { background: #0056b3; }
         input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .hidden { display: none; }
+        .hidden { display: none !important; }
         .card { background: #e9ecef; padding: 10px; border-radius: 6px; margin-top: 10px; }
     </style>
 </head>
@@ -52,6 +52,7 @@
     function showSettingsLogin() {
         document.getElementById('dashboard').classList.add('hidden');
         document.getElementById('settingsLogin').classList.remove('hidden');
+        document.getElementById('settingsPanel').classList.add('hidden');
     }
 
     function verifyPassword() {
