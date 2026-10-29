@@ -19,15 +19,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-
-      - name: Build APK with HTML
+      - name: Prepare Finance Web App Files
         run: |
-          echo "Preparing My Finance files..."
+          echo "Preparing files for My Finance App..."
+          ls -la
 
-      - name: Upload APK Artifact
+      - name: Upload Web App Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: My-Finance-APK
+          name: My-Finance-App-Files
           path: index.html
