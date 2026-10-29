@@ -6,158 +6,197 @@
     <title>My Finance App</title>
     <style>
         :root {
-            --primary: #007bff;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #fd7e14;
-            --info: #17a2b8;
-            --bg: #f4f6f9;
+            --primary: #4f46e5;
+            --purple-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+            --bg: #f8fafc;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #333; }
-        .container { max-width: 450px; margin: auto; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2, h3 { text-align: center; color: var(--primary); margin-top: 5px; }
-        .card { background: #e9ecef; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 8px; }
-        .btn:hover { opacity: 0.9; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 12px; color: #1e293b; }
+        .container { max-width: 450px; margin: auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); overflow: hidden; padding-bottom: 70px; }
+        
+        /* Header */
+        .app-header { background: var(--purple-gradient); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        .app-header h2 { margin: 0; font-size: 22px; }
+        .app-header p { margin: 2px 0 0 0; font-size: 12px; opacity: 0.8; }
+        .gear-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 50%; cursor: pointer; font-size: 16px; }
+
+        .content-body { padding: 15px; }
+        .card { background: #fff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 14px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        
+        /* Balance Card */
+        .balance-card { text-align: center; background: #fff; border: 1px solid #e2e8f0; }
+        .balance-amount { font-size: 32px; font-weight: bold; color: var(--success); margin: 5px 0 10px 0; }
+        .sub-stats { display: flex; justify-content: space-around; border-top: 1px solid #f1f5f9; padding-top: 10px; font-size: 13px; }
+
+        /* Buttons & Inputs */
+        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 8px; transition: 0.2s; }
+        .btn:active { transform: scale(0.98); }
         .btn-success { background: var(--success); }
         .btn-danger { background: var(--danger); }
-        .btn-warning { background: var(--warning); color: white; }
         .btn-info { background: var(--info); }
-        .btn-clear { background: #6c757d; color: white; }
-        input, select { width: 100%; padding: 10px; margin: 6px 0 12px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .btn-warning { background: var(--warning); color: white; }
+        
+        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        
+        input, select { width: 100%; padding: 11px; margin: 6px 0 12px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #f8fafc; }
+        label { font-size: 13px; font-weight: 600; color: #475569; }
         .hidden { display: none !important; }
-        
-        /* Navigation Tabs */
-        .nav-bar { display: flex; justify-content: space-around; background: #fff; padding: 10px 0; border-top: 1px solid #ddd; position: fixed; bottom: 0; left: 0; right: 0; max-width: 450px; margin: auto; }
-        .nav-item { border: none; background: none; font-size: 14px; font-weight: bold; color: #666; cursor: pointer; }
-        .nav-item.active { color: var(--primary); }
 
-        /* Calendar Styles */
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-        .day-name { font-weight: bold; background: #eee; padding: 5px 0; border-radius: 4px; font-size: 12px; }
-        .cell { padding: 12px 0; border-radius: 6px; font-weight: bold; background: #f8f9fa; cursor: pointer; font-size: 13px; border: 1px solid #ddd; }
+        /* Navigation Bar */
+        .nav-bar { display: flex; justify-content: space-around; background: #fff; padding: 12px 0; border-top: 1px solid #e2e8f0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 450px; margin: auto; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); }
+        .nav-item { border: none; background: none; font-size: 13px; font-weight: 600; color: #94a3b8; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item span { font-size: 18px; }
+
+        /* Calendar */
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+        .day-name { font-weight: bold; background: #f1f5f9; padding: 6px 0; border-radius: 6px; font-size: 11px; color: #64748b; }
+        .cell { padding: 10px 0; border-radius: 8px; font-weight: bold; background: #f8fafc; cursor: pointer; font-size: 13px; border: 1px solid #e2e8f0; }
         
-        /* Full Cell Colors */
         .cell.present { background-color: var(--success) !important; color: white !important; border-color: var(--success); }
         .cell.absent { background-color: var(--danger) !important; color: white !important; border-color: var(--danger); }
         .cell.halfday { background-color: var(--warning) !important; color: white !important; border-color: var(--warning); }
         .cell.overtime { background-color: var(--info) !important; color: white !important; border-color: var(--info); }
-
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container" style="padding-bottom: 70px;">
-    <h2>My Finance</h2>
-
-    <!-- PAGE 1: DASHBOARD -->
-    <div id="pageDashboard">
-        <div class="card" style="text-align: center;">
-            <p style="margin:0; font-size: 14px; color: #666;">Total Balance</p>
-            <h1 style="margin:5px 0; color: #28a745;">₹<span id="balance">0</span></h1>
+<div class="container">
+    <!-- Header -->
+    <div class="app-header">
+        <div>
+            <h2>My Finance</h2>
+            <p>Finance & Dashboard</p>
         </div>
-
-        <div class="card">
-            <h3>Add Transaction</h3>
-            <label>Amount (₹)</label>
-            <input type="number" id="txAmount" placeholder="Enter amount">
-            <label>Type</label>
-            <select id="txType">
-                <option value="income">Income (+)</option>
-                <option value="expense">Expense (-)</option>
-            </select>
-            <label>Description</label>
-            <input type="text" id="txDesc" placeholder="e.g. Salary, Food, Fuel">
-            <button class="btn btn-success" onclick="addTransaction()">Save Transaction</button>
-        </div>
+        <button class="gear-btn" onclick="showPage('settings')">⚙️</button>
     </div>
 
-    <!-- PAGE 2: CALENDAR & ATTENDANCE -->
-    <div id="pageCalendar" class="hidden">
-        <div class="calendar-header">
-            <button class="btn" style="width: auto; padding: 5px 12px;" onclick="changeMonth(-1)">&lt;</button>
-            <h3 id="monthYearTitle" style="margin: 0;">Month Year</h3>
-            <button class="btn" style="width: auto; padding: 5px 12px;" onclick="changeMonth(1)">&gt;</button>
-        </div>
-
-        <div class="calendar-grid" id="calendarGrid"></div>
-
-        <!-- Monthly Attendance Summary -->
-        <div class="card" style="margin-top: 15px;">
-            <h4 style="margin-top: 0; text-align: center;">Monthly Summary</h4>
-            <p>🟢 Present: <b id="countPresent">0</b> days</p>
-            <p>🔴 Absent: <b id="countAbsent">0</b> days</p>
-            <p>🟠 Half Day: <b id="countHalfDay">0</b> days</p>
-            <p>🔵 Over Time: <b id="countOT">0</b> days</p>
-        </div>
-
-        <!-- Selected Day Action Box -->
-        <div id="dayActionBox" class="card hidden">
-            <h4 style="margin-top: 0;">Selected Date: <span id="selectedDateText"></span></h4>
-            <div class="action-grid">
-                <button class="btn btn-success" onclick="setAttendance('present')">Present</button>
-                <button class="btn btn-danger" onclick="setAttendance('absent')">Absent</button>
-                <button class="btn btn-warning" onclick="setAttendance('halfday')">Half Day</button>
-                <button class="btn btn-info" onclick="setAttendance('overtime')">Over Time</button>
+    <div class="content-body">
+        <!-- PAGE 1: DASHBOARD -->
+        <div id="pageDashboard">
+            <div class="card balance-card">
+                <p style="margin:0; font-size: 13px; color: #64748b;">TOTAL BALANCE</p>
+                <div class="balance-amount">₹<span id="balance">0.00</span></div>
+                <div class="sub-stats">
+                    <div>Income (+OT): <b style="color:var(--success);">₹<span id="totalIncome">0.00</span></b></div>
+                    <div>Expense: <b style="color:var(--danger);">₹<span id="totalExpense">0.00</span></b></div>
+                </div>
             </div>
-            <button class="btn btn-clear" style="margin-top: 8px;" onclick="setAttendance('clear')">Clear Status</button>
+
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">Quick Transaction</h3>
+                <label>Description</label>
+                <input type="text" id="txDesc" placeholder="e.g. Salary, Food, Rent">
+                
+                <label>Amount (₹)</label>
+                <input type="number" id="txAmount" placeholder="Enter amount">
+
+                <div class="action-row">
+                    <button class="btn btn-success" onclick="addTransaction('income')">+ Income</button>
+                    <button class="btn btn-danger" onclick="addTransaction('expense')">- Expense</button>
+                </div>
+            </div>
         </div>
 
-        <!-- OT Calculator Section -->
-        <div class="card">
-            <h3>OT Calculator</h3>
-            <label>Monthly Salary (₹)</label>
-            <input type="number" id="otSalary" placeholder="e.g., 25000">
-            <label>Days in Month</label>
-            <input type="number" id="otDays" value="30">
-            <button class="btn btn-info" onclick="calcOTRate()">Calculate Hourly OT Rate</button>
-            
-            <div id="otRateResult" style="margin-top: 10px; font-weight: bold; color: #17a2b8;"></div>
+        <!-- PAGE 2: CALENDAR & OT -->
+        <div id="pageCalendar" class="hidden">
+            <div class="calendar-header">
+                <button class="btn" style="width: auto; padding: 6px 14px;" onclick="changeMonth(-1)">&lt;</button>
+                <h3 id="monthYearTitle" style="margin: 0; color:var(--primary);">Month Year</h3>
+                <button class="btn" style="width: auto; padding: 6px 14px;" onclick="changeMonth(1)">&gt;</button>
+            </div>
 
-            <hr style="margin: 15px 0;">
+            <div class="calendar-grid" id="calendarGrid"></div>
 
-            <label>OT Hours Worked</label>
-            <input type="number" id="otHours" placeholder="Enter OT Hours">
-            <button class="btn btn-success" onclick="addOTToBalance()">Add OT Amount to Balance</button>
+            <div class="card" style="margin-top: 15px;">
+                <h4 style="margin-top: 0; text-align: center;">Monthly Summary</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+                    <p style="margin:4px 0;">🟢 Present: <b id="countPresent">0</b></p>
+                    <p style="margin:4px 0;">🔴 Absent: <b id="countAbsent">0</b></p>
+                    <p style="margin:4px 0;">🟠 Half Day: <b id="countHalfDay">0</b></p>
+                    <p style="margin:4px 0;">🔵 Over Time: <b id="countOT">0</b></p>
+                </div>
+            </div>
+
+            <div id="dayActionBox" class="card hidden">
+                <h4 style="margin-top: 0; font-size: 14px;">Selected Date: <span id="selectedDateText"></span></h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                    <button class="btn btn-success" style="padding:8px;" onclick="setAttendance('present')">Present</button>
+                    <button class="btn btn-danger" style="padding:8px;" onclick="setAttendance('absent')">Absent</button>
+                    <button class="btn btn-warning" style="padding:8px;" onclick="setAttendance('halfday')">Half Day</button>
+                    <button class="btn btn-info" style="padding:8px;" onclick="setAttendance('overtime')">Over Time</button>
+                </div>
+                <button class="btn" style="background:#64748b; padding:8px; margin-top:6px;" onclick="setAttendance('clear')">Clear Status</button>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">OT Calculator</h3>
+                <label>Monthly Salary (₹)</label>
+                <input type="number" id="otSalary" placeholder="e.g., 25000">
+                <label>Days in Month</label>
+                <input type="number" id="otDays" value="30">
+                <button class="btn btn-info" onclick="calcOTRate()">Calculate Hourly OT Rate</button>
+                
+                <div id="otRateResult" style="margin-top: 8px; font-size: 13px; font-weight: bold; color: var(--info);"></div>
+
+                <hr style="margin: 12px 0; border:0; border-top:1px solid #e2e8f0;">
+
+                <label>OT Hours Worked</label>
+                <input type="number" id="otHours" placeholder="Enter OT Hours">
+                <button class="btn btn-success" onclick="addOTToBalance()">Add OT Amount to Balance</button>
+            </div>
         </div>
-    </div>
 
-    <!-- PAGE 3: SETTINGS LOGIN -->
-    <div id="pageSettingsLogin" class="hidden">
-        <div class="card">
-            <h3>Settings Password</h3>
-            <input type="password" id="passInput" placeholder="Enter Password">
-            <button class="btn" onclick="verifyPassword()">Login</button>
+        <!-- PAGE 3: SETTINGS LOGIN -->
+        <div id="pageSettingsLogin" class="hidden">
+            <div class="card" style="text-align: center; padding: 25px;">
+                <h3 style="color:var(--primary);">🔒 Settings Security</h3>
+                <p style="font-size: 13px; color: #64748b;">Enter password to access Admin Settings & AI Assistant</p>
+                <input type="password" id="passInput" placeholder="Enter Password (Surya@777)" style="text-align: center;">
+                <button class="btn" onclick="verifyPassword()">Unlock Settings</button>
+            </div>
         </div>
-    </div>
 
-    <!-- PAGE 4: SETTINGS PANEL -->
-    <div id="pageSettingsPanel" class="hidden">
-        <div class="card">
-            <h3>AI Assistant & Settings</h3>
-            <p>Welcome, Admin!</p>
-            <label>AI Assistant Command:</label>
-            <input type="text" id="aiCommand" placeholder="e.g., Reset balance or calculate savings">
-            <button class="btn" onclick="runAIAssistant()">Execute AI Command</button>
-            <div id="aiResponse" class="card hidden" style="margin-top: 10px; background: #fff;"></div>
-            <button class="btn btn-danger" style="margin-top: 20px;" onclick="logoutSettings()">Logout Settings</button>
+        <!-- PAGE 4: SETTINGS PANEL -->
+        <div id="pageSettingsPanel" class="hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">AI Assistant & Settings</h3>
+                <p style="font-size: 13px; color: #64748b;">Welcome, Admin! Configure your app settings.</p>
+                
+                <label>AI Assistant Command:</label>
+                <input type="text" id="aiCommand" placeholder="e.g., Reset data or add income">
+                <button class="btn" onclick="runAIAssistant()">Execute AI Command</button>
+                <div id="aiResponse" class="card hidden" style="margin-top: 10px; background: #f8fafc; font-size: 13px;"></div>
+                
+                <button class="btn btn-danger" style="margin-top: 20px;" onclick="logoutSettings()">Lock / Logout</button>
+            </div>
         </div>
     </div>
 
     <!-- BOTTOM NAVIGATION BAR -->
     <div class="nav-bar">
-        <button class="nav-item active" id="navDash" onclick="showPage('dashboard')">Dashboard</button>
-        <button class="nav-item" id="navCal" onclick="showPage('calendar')">Calendar & OT</button>
-        <button class="nav-item" id="navSet" onclick="showPage('settings')">Settings</button>
+        <button class="nav-item active" id="navDash" onclick="showPage('dashboard')">
+            <span>🏠</span>Dashboard
+        </button>
+        <button class="nav-item" id="navCal" onclick="showPage('calendar')">
+            <span>📅</span>Calendar & OT
+        </button>
+        <button class="nav-item" id="navSet" onclick="showPage('settings')">
+            <span>⚙️</span>Settings
+        </button>
     </div>
 </div>
 
 <script>
     let state = {
         balance: 0,
-        attendance: {}, 
+        totalIncome: 0,
+        totalExpense: 0,
+        attendance: {},
         calculatedOTRate: 0
     };
 
@@ -187,18 +226,30 @@
         }
     }
 
-    function addTransaction() {
+    function addTransaction(type) {
         const amt = parseFloat(document.getElementById('txAmount').value);
-        const type = document.getElementById('txType').value;
-        if (isNaN(amt) || amt <= 0) return alert('Enter valid amount');
+        const desc = document.getElementById('txDesc').value || (type === 'income' ? 'Income' : 'Expense');
+        
+        if (isNaN(amt) || amt <= 0) return alert('Please enter a valid amount');
 
-        if (type === 'income') state.balance += amt;
-        else state.balance -= amt;
+        if (type === 'income') {
+            state.balance += amt;
+            state.totalIncome += amt;
+        } else {
+            state.balance -= amt;
+            state.totalExpense += amt;
+        }
 
-        document.getElementById('balance').innerText = state.balance.toFixed(2);
+        updateUI();
         document.getElementById('txAmount').value = '';
         document.getElementById('txDesc').value = '';
-        alert('Transaction Added Successfully!');
+        alert('Transaction Saved Successfully!');
+    }
+
+    function updateUI() {
+        document.getElementById('balance').innerText = state.balance.toFixed(2);
+        document.getElementById('totalIncome').innerText = state.totalIncome.toFixed(2);
+        document.getElementById('totalExpense').innerText = state.totalExpense.toFixed(2);
     }
 
     // CALENDAR FUNCTIONS
@@ -280,27 +331,27 @@
         }
 
         state.calculatedOTRate = salary / (days * 11);
-        document.getElementById('otRateResult').innerHTML = `Calculated Hourly OT Rate: <b>₹${state.calculatedOTRate.toFixed(2)}</b> / hr`;
+        document.getElementById('otRateResult').innerHTML = `Hourly OT Rate: <b>₹${state.calculatedOTRate.toFixed(2)}</b> / hr`;
     }
 
     function addOTToBalance() {
         const hours = parseFloat(document.getElementById('otHours').value);
         if (isNaN(hours) || hours <= 0) return alert('Enter valid OT hours');
         
-        // જો Rate கணക്കാക്കിയിട്ടില്ലെങ്കിൽ ഓട്ടോമാറ്റിക്കായി സാലറി ഫീൽഡ് നോക്കി കണക്കാക്കും
         if (state.calculatedOTRate <= 0) {
             const salary = parseFloat(document.getElementById('otSalary').value);
             const days = parseFloat(document.getElementById('otDays').value);
             if (!isNaN(salary) && !isNaN(days) && days > 0) {
                 state.calculatedOTRate = salary / (days * 11);
             } else {
-                return alert('Please calculate OT Rate first by entering Salary and Days!');
+                return alert('Please calculate OT Rate first!');
             }
         }
 
         const otTotal = hours * state.calculatedOTRate;
         state.balance += otTotal;
-        document.getElementById('balance').innerText = state.balance.toFixed(2);
+        state.totalIncome += otTotal;
+        updateUI();
         document.getElementById('otHours').value = '';
         alert(`Successfully Added ₹${otTotal.toFixed(2)} OT pay to Balance!`);
     }
@@ -325,7 +376,7 @@
         const cmd = document.getElementById('aiCommand').value;
         const resDiv = document.getElementById('aiResponse');
         resDiv.classList.remove('hidden');
-        resDiv.innerHTML = "<b>AI Assistant:</b> Successfully processed '" + cmd + "'";
+        resDiv.innerHTML = "<b>AI Assistant:</b> Successfully processed command: '" + cmd + "'";
     }
 </script>
 
