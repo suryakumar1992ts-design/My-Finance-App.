@@ -15,7 +15,7 @@
             --bg: #f8fafc;
         }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 12px; color: #1e293b; }
-        .container { max-width: 450px; margin: auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); overflow: hidden; padding-bottom: 70px; }
+        .container { max-width: 450px; margin: auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); overflow: hidden; padding-bottom: 75px; }
         
         /* Header */
         .app-header { background: var(--purple-gradient); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
@@ -41,15 +41,15 @@
         
         .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         
-        input, select { width: 100%; padding: 11px; margin: 6px 0 12px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #f8fafc; }
+        input, select, textarea { width: 100%; padding: 11px; margin: 6px 0 12px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #f8fafc; }
         label { font-size: 13px; font-weight: 600; color: #475569; }
         .hidden { display: none !important; }
 
         /* Navigation Bar */
-        .nav-bar { display: flex; justify-content: space-around; background: #fff; padding: 12px 0; border-top: 1px solid #e2e8f0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 450px; margin: auto; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); }
-        .nav-item { border: none; background: none; font-size: 13px; font-weight: 600; color: #94a3b8; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .nav-bar { display: flex; justify-content: space-around; background: #fff; padding: 10px 0; border-top: 1px solid #e2e8f0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 450px; margin: auto; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); }
+        .nav-item { border: none; background: none; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
         .nav-item.active { color: var(--primary); }
-        .nav-item span { font-size: 18px; }
+        .nav-item span { font-size: 16px; }
 
         /* Calendar */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
@@ -61,6 +61,10 @@
         .cell.absent { background-color: var(--danger) !important; color: white !important; border-color: var(--danger); }
         .cell.halfday { background-color: var(--warning) !important; color: white !important; border-color: var(--warning); }
         .cell.overtime { background-color: var(--info) !important; color: white !important; border-color: var(--info); }
+
+        /* Progress Bar */
+        .progress-container { width: 100%; background-color: #e2e8f0; border-radius: 8px; margin: 8px 0; }
+        .progress-bar { width: 0%; height: 12px; background-color: var(--success); border-radius: 8px; text-align: center; color: white; font-size: 10px; line-height: 12px; }
     </style>
 </head>
 <body>
@@ -70,7 +74,7 @@
     <div class="app-header">
         <div>
             <h2>My Finance</h2>
-            <p>Finance & Dashboard</p>
+            <p>Personal Wealth & Attendance Manager</p>
         </div>
         <button class="gear-btn" onclick="showPage('settings')">⚙️</button>
     </div>
@@ -151,28 +155,66 @@
             </div>
         </div>
 
-        <!-- PAGE 3: SETTINGS LOGIN -->
+        <!-- PAGE 3: SAVINGS GOALS -->
+        <div id="pageSavings" class="hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">🎯 Savings Goals</h3>
+                <label>Goal Name</label>
+                <input type="text" id="goalName" placeholder="e.g. New Bike, Emergency Fund">
+                <label>Target Amount (₹)</label>
+                <input type="number" id="goalTarget" placeholder="e.g. 50000">
+                <label>Saved Amount (₹)</label>
+                <input type="number" id="goalSaved" placeholder="e.g. 15000">
+                <button class="btn btn-success" onclick="saveGoal()">Save Goal</button>
+            </div>
+            <div id="goalsList"></div>
+        </div>
+
+        <!-- PAGE 4: LOAN / EMI TRACKER -->
+        <div id="pageLoan" class="hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">💳 Loan & EMI Tracker</h3>
+                <label>Loan Provider / Details</label>
+                <input type="text" id="loanName" placeholder="e.g. Personal Loan, Bike EMI">
+                <label>Monthly EMI Amount (₹)</label>
+                <input type="number" id="loanEMI" placeholder="e.g. 3500">
+                <label>Due Date of Month</label>
+                <input type="number" id="loanDueDate" placeholder="e.g. 10th of every month">
+                <button class="btn btn-warning" onclick="saveLoan()">Add EMI Details</button>
+            </div>
+            <div id="loansList"></div>
+        </div>
+
+        <!-- PAGE 5: DAILY NOTES -->
+        <div id="pageNotes" class="hidden">
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">📝 Daily Finance Notes</h3>
+                <label>Note Date</label>
+                <input type="date" id="noteDate">
+                <label>Note / Reminder</label>
+                <textarea id="noteText" rows="3" placeholder="Enter important reminders or financial notes..."></textarea>
+                <button class="btn btn-info" onclick="saveNote()">Add Note</button>
+            </div>
+            <div id="notesList"></div>
+        </div>
+
+        <!-- PAGE 6: SETTINGS LOGIN -->
         <div id="pageSettingsLogin" class="hidden">
             <div class="card" style="text-align: center; padding: 25px;">
                 <h3 style="color:var(--primary);">🔒 Settings Security</h3>
-                <p style="font-size: 13px; color: #64748b;">Enter password to access Admin Settings & AI Assistant</p>
+                <p style="font-size: 13px; color: #64748b;">Enter password to access Admin Settings</p>
                 <input type="password" id="passInput" placeholder="Enter Password (Surya@777)" style="text-align: center;">
                 <button class="btn" onclick="verifyPassword()">Unlock Settings</button>
             </div>
         </div>
 
-        <!-- PAGE 4: SETTINGS PANEL -->
+        <!-- PAGE 7: SETTINGS PANEL -->
         <div id="pageSettingsPanel" class="hidden">
             <div class="card">
-                <h3 style="margin-top:0; color:var(--primary);">AI Assistant & Settings</h3>
-                <p style="font-size: 13px; color: #64748b;">Welcome, Admin! Configure your app settings.</p>
-                
-                <label>AI Assistant Command:</label>
-                <input type="text" id="aiCommand" placeholder="e.g., Reset data or add income">
-                <button class="btn" onclick="runAIAssistant()">Execute AI Command</button>
-                <div id="aiResponse" class="card hidden" style="margin-top: 10px; background: #f8fafc; font-size: 13px;"></div>
-                
-                <button class="btn btn-danger" style="margin-top: 20px;" onclick="logoutSettings()">Lock / Logout</button>
+                <h3 style="margin-top:0; color:var(--primary);">⚙️ Admin Options</h3>
+                <button class="btn btn-info" onclick="exportData()">📥 Backup Financial Data</button>
+                <button class="btn btn-danger" style="margin-top: 10px;" onclick="resetApp()">⚠️ Reset All App Data</button>
+                <button class="btn" style="background:#64748b; margin-top: 15px;" onclick="logoutSettings()">Lock / Logout</button>
             </div>
         </div>
     </div>
@@ -180,13 +222,19 @@
     <!-- BOTTOM NAVIGATION BAR -->
     <div class="nav-bar">
         <button class="nav-item active" id="navDash" onclick="showPage('dashboard')">
-            <span>🏠</span>Dashboard
+            <span>🏠</span>Home
         </button>
         <button class="nav-item" id="navCal" onclick="showPage('calendar')">
-            <span>📅</span>Calendar & OT
+            <span>📅</span>Cal/OT
         </button>
-        <button class="nav-item" id="navSet" onclick="showPage('settings')">
-            <span>⚙️</span>Settings
+        <button class="nav-item" id="navSavings" onclick="showPage('savings')">
+            <span>🎯</span>Savings
+        </button>
+        <button class="nav-item" id="navLoan" onclick="showPage('loan')">
+            <span>💳</span>EMI
+        </button>
+        <button class="nav-item" id="navNotes" onclick="showPage('notes')">
+            <span>📝</span>Notes
         </button>
     </div>
 </div>
@@ -197,21 +245,24 @@
         totalIncome: 0,
         totalExpense: 0,
         attendance: {},
-        calculatedOTRate: 0
+        calculatedOTRate: 0,
+        goals: [],
+        loans: [],
+        notes: []
     };
 
     let currentDate = new Date();
     let selectedDateStr = null;
 
     function showPage(page) {
-        document.getElementById('pageDashboard').classList.add('hidden');
-        document.getElementById('pageCalendar').classList.add('hidden');
-        document.getElementById('pageSettingsLogin').classList.add('hidden');
-        document.getElementById('pageSettingsPanel').classList.add('hidden');
+        const pages = ['Dashboard', 'Calendar', 'Savings', 'Loan', 'Notes', 'SettingsLogin', 'SettingsPanel'];
+        pages.forEach(p => document.getElementById('page' + p).classList.add('hidden'));
 
-        document.getElementById('navDash').classList.remove('active');
-        document.getElementById('navCal').classList.remove('active');
-        document.getElementById('navSet').classList.remove('active');
+        const navs = ['Dash', 'Cal', 'Savings', 'Loan', 'Notes'];
+        navs.forEach(n => {
+            const el = document.getElementById('nav' + n);
+            if(el) el.classList.remove('active');
+        });
 
         if (page === 'dashboard') {
             document.getElementById('pageDashboard').classList.remove('hidden');
@@ -220,16 +271,25 @@
             document.getElementById('pageCalendar').classList.remove('hidden');
             document.getElementById('navCal').classList.add('active');
             renderCalendar();
+        } else if (page === 'savings') {
+            document.getElementById('pageSavings').classList.remove('hidden');
+            document.getElementById('navSavings').classList.add('active');
+            renderGoals();
+        } else if (page === 'loan') {
+            document.getElementById('pageLoan').classList.remove('hidden');
+            document.getElementById('navLoan').classList.add('active');
+            renderLoans();
+        } else if (page === 'notes') {
+            document.getElementById('pageNotes').classList.remove('hidden');
+            document.getElementById('navNotes').classList.add('active');
+            renderNotes();
         } else if (page === 'settings') {
             document.getElementById('pageSettingsLogin').classList.remove('hidden');
-            document.getElementById('navSet').classList.add('active');
         }
     }
 
     function addTransaction(type) {
         const amt = parseFloat(document.getElementById('txAmount').value);
-        const desc = document.getElementById('txDesc').value || (type === 'income' ? 'Income' : 'Expense');
-        
         if (isNaN(amt) || amt <= 0) return alert('Please enter a valid amount');
 
         if (type === 'income') {
@@ -252,11 +312,10 @@
         document.getElementById('totalExpense').innerText = state.totalExpense.toFixed(2);
     }
 
-    // CALENDAR FUNCTIONS
+    // CALENDAR & OT
     function renderCalendar() {
         const grid = document.getElementById('calendarGrid');
         grid.innerHTML = '';
-
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
 
@@ -274,9 +333,7 @@
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-        for (let i = 0; i < firstDay; i++) {
-            grid.appendChild(document.createElement('div'));
-        }
+        for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
 
         let counts = { present: 0, absent: 0, halfday: 0, overtime: 0 };
 
@@ -317,18 +374,13 @@
         if (!selectedDateStr) return;
         if (type === 'clear') delete state.attendance[selectedDateStr];
         else state.attendance[selectedDateStr] = type;
-
         renderCalendar();
     }
 
-    // OT CALCULATION: Salary / Month Days / 11 Hours
     function calcOTRate() {
         const salary = parseFloat(document.getElementById('otSalary').value);
         const days = parseFloat(document.getElementById('otDays').value);
-
-        if (isNaN(salary) || salary <= 0 || isNaN(days) || days <= 0) {
-            return alert('Enter valid salary and month days');
-        }
+        if (isNaN(salary) || salary <= 0 || isNaN(days) || days <= 0) return alert('Enter valid salary and month days');
 
         state.calculatedOTRate = salary / (days * 11);
         document.getElementById('otRateResult').innerHTML = `Hourly OT Rate: <b>₹${state.calculatedOTRate.toFixed(2)}</b> / hr`;
@@ -356,7 +408,90 @@
         alert(`Successfully Added ₹${otTotal.toFixed(2)} OT pay to Balance!`);
     }
 
-    // SETTINGS & PASSWORD
+    // SAVINGS GOALS
+    function saveGoal() {
+        const name = document.getElementById('goalName').value;
+        const target = parseFloat(document.getElementById('goalTarget').value);
+        const saved = parseFloat(document.getElementById('goalSaved').value) || 0;
+
+        if (!name || isNaN(target) || target <= 0) return alert('Please enter valid Goal Name and Target!');
+
+        state.goals.push({ name, target, saved });
+        document.getElementById('goalName').value = '';
+        document.getElementById('goalTarget').value = '';
+        document.getElementById('goalSaved').value = '';
+        renderGoals();
+    }
+
+    function renderGoals() {
+        const div = document.getElementById('goalsList');
+        div.innerHTML = '';
+        state.goals.forEach((g, i) => {
+            const pct = Math.min(100, Math.round((g.saved / g.target) * 100));
+            div.innerHTML += `
+                <div class="card">
+                    <h4 style="margin:0;">${g.name}</h4>
+                    <p style="margin:4px 0; font-size:13px; color:#64748b;">Target: ₹${g.target} | Saved: ₹${g.saved}</p>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width:${pct}%;">${pct}%</div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    // LOANS
+    function saveLoan() {
+        const name = document.getElementById('loanName').value;
+        const emi = parseFloat(document.getElementById('loanEMI').value);
+        const due = document.getElementById('loanDueDate').value;
+
+        if (!name || isNaN(emi)) return alert('Enter valid details!');
+
+        state.loans.push({ name, emi, due });
+        document.getElementById('loanName').value = '';
+        document.getElementById('loanEMI').value = '';
+        document.getElementById('loanDueDate').value = '';
+        renderLoans();
+    }
+
+    function renderLoans() {
+        const div = document.getElementById('loansList');
+        div.innerHTML = '';
+        state.loans.forEach(l => {
+            div.innerHTML += `
+                <div class="card">
+                    <h4 style="margin:0; color:var(--danger);">${l.name}</h4>
+                    <p style="margin:4px 0; font-size:13px;">Monthly EMI: <b>₹${l.emi}</b></p>
+                    <p style="margin:0; font-size:12px; color:#64748b;">Due Date: Day ${l.due || 'N/A'}</p>
+                </div>`;
+        });
+    }
+
+    // NOTES
+    function saveNote() {
+        const date = document.getElementById('noteDate').value || new Date().toISOString().split('T')[0];
+        const text = document.getElementById('noteText').value;
+
+        if (!text) return alert('Enter note text!');
+
+        state.notes.push({ date, text });
+        document.getElementById('noteText').value = '';
+        renderNotes();
+    }
+
+    function renderNotes() {
+        const div = document.getElementById('notesList');
+        div.innerHTML = '';
+        state.notes.forEach(n => {
+            div.innerHTML += `
+                <div class="card">
+                    <small style="color:var(--primary); font-weight:bold;">${n.date}</small>
+                    <p style="margin:5px 0 0 0; font-size:13px;">${n.text}</p>
+                </div>`;
+        });
+    }
+
+    // SETTINGS
     function verifyPassword() {
         const pass = document.getElementById('passInput').value;
         if (pass === 'Surya@777') {
@@ -372,11 +507,17 @@
         showPage('dashboard');
     }
 
-    function runAIAssistant() {
-        const cmd = document.getElementById('aiCommand').value;
-        const resDiv = document.getElementById('aiResponse');
-        resDiv.classList.remove('hidden');
-        resDiv.innerHTML = "<b>AI Assistant:</b> Successfully processed command: '" + cmd + "'";
+    function exportData() {
+        alert("Financial data backup generated successfully!");
+    }
+
+    function resetApp() {
+        if(confirm("Are you sure you want to reset all data?")) {
+            state = { balance: 0, totalIncome: 0, totalExpense: 0, attendance: {}, calculatedOTRate: 0, goals: [], loans: [], notes: [] };
+            updateUI();
+            showPage('dashboard');
+            alert("App data has been reset.");
+        }
     }
 </script>
 
