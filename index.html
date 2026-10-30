@@ -6,65 +6,77 @@
     <title>My Finance App</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --purple-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --primary: #6366f1;
+            --gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #d946ef 100%);
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
             --info: #06b6d4;
-            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --bg: #f1f5f9;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 12px; color: #1e293b; }
-        .container { max-width: 450px; margin: auto; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); overflow: hidden; padding-bottom: 75px; }
-        
-        /* Header */
-        .app-header { background: var(--purple-gradient); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
-        .app-header h2 { margin: 0; font-size: 22px; }
-        .app-header p { margin: 2px 0 0 0; font-size: 12px; opacity: 0.8; }
-        .gear-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 50%; cursor: pointer; font-size: 16px; }
 
-        .content-body { padding: 15px; }
-        .card { background: #fff; border: 1px solid #e2e8f0; padding: 15px; border-radius: 14px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        * { box-sizing: border-box; transition: all 0.25s ease-in-out; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg); margin: 0; padding: 12px; color: #0f172a; }
         
-        /* Balance Card */
-        .balance-card { text-align: center; background: #fff; border: 1px solid #e2e8f0; }
-        .balance-amount { font-size: 32px; font-weight: bold; color: var(--success); margin: 5px 0 10px 0; }
-        .sub-stats { display: flex; justify-content: space-around; border-top: 1px solid #f1f5f9; padding-top: 10px; font-size: 13px; }
+        .container { max-width: 450px; margin: auto; background: white; border-radius: 24px; box-shadow: 0 20px 35px rgba(79, 70, 229, 0.15); overflow: hidden; padding-bottom: 85px; position: relative; }
+        
+        /* Animated Header */
+        .app-header { background: var(--gradient); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; animation: fadeIn 0.4s ease; }
+        .app-header h2 { margin: 0; font-size: 22px; font-weight: 800; }
+        .app-header p { margin: 2px 0 0 0; font-size: 11px; opacity: 0.85; }
+        .gear-btn { background: rgba(255,255,255,0.25); border: none; color: white; padding: 10px; border-radius: 50%; cursor: pointer; font-size: 16px; backdrop-filter: blur(5px); }
 
-        /* Buttons & Inputs */
-        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 8px; transition: 0.2s; }
-        .btn:active { transform: scale(0.98); }
-        .btn-success { background: var(--success); }
-        .btn-danger { background: var(--danger); }
-        .btn-info { background: var(--info); }
-        .btn-warning { background: var(--warning); color: white; }
+        .content-body { padding: 16px; }
         
-        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        /* Cards & Animation */
+        .card { background: var(--card-bg); border-radius: 18px; padding: 16px; margin-bottom: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; animation: slideUp 0.35s ease-out; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+
+        /* Dashboard Balance */
+        .balance-card { text-align: center; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 2px solid #e0e7ff; }
+        .balance-amount { font-size: 34px; font-weight: 800; color: var(--primary); margin: 6px 0 12px 0; text-shadow: 0 2px 4px rgba(99, 102, 241, 0.15); }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; border-top: 1px solid #e2e8f0; padding-top: 12px; font-size: 11px; text-align: center; }
+
+        /* Form Controls */
+        label { font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-size: 14px; background: #f8fafc; outline: none; }
+        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); background: #fff; }
         
-        input, select, textarea { width: 100%; padding: 11px; margin: 6px 0 12px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #f8fafc; }
-        label { font-size: 13px; font-weight: 600; color: #475569; }
-        .hidden { display: none !important; }
+        .btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .btn:active { transform: scale(0.96); }
+        .btn-success { background: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-danger { background: var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+        .btn-warning { background: var(--warning); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); color: white; }
+        .btn-info { background: var(--info); box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3); }
+
+        .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
 
         /* Navigation Bar */
-        .nav-bar { display: flex; justify-content: space-around; background: #fff; padding: 10px 0; border-top: 1px solid #e2e8f0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 450px; margin: auto; box-shadow: 0 -4px 10px rgba(0,0,0,0.03); }
-        .nav-item { border: none; background: none; font-size: 11px; font-weight: 600; color: #94a3b8; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
-        .nav-item.active { color: var(--primary); }
+        .nav-bar { display: flex; justify-content: space-around; background: rgba(255, 255, 255, 0.95); padding: 10px 4px; border-top: 1px solid #e2e8f0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 450px; margin: auto; backdrop-filter: blur(10px); overflow-x: auto; }
+        .nav-item { border: none; background: none; font-size: 10px; font-weight: 700; color: #94a3b8; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 50px; }
+        .nav-item.active { color: var(--primary); transform: translateY(-2px); }
         .nav-item span { font-size: 16px; }
 
         /* Calendar */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
-        .day-name { font-weight: bold; background: #f1f5f9; padding: 6px 0; border-radius: 6px; font-size: 11px; color: #64748b; }
-        .cell { padding: 10px 0; border-radius: 8px; font-weight: bold; background: #f8fafc; cursor: pointer; font-size: 13px; border: 1px solid #e2e8f0; }
+        .day-name { font-weight: 800; background: #e0e7ff; padding: 6px 0; border-radius: 8px; font-size: 11px; color: var(--primary); }
+        .cell { padding: 10px 0; border-radius: 10px; font-weight: 700; background: #f8fafc; cursor: pointer; font-size: 13px; border: 1px solid #e2e8f0; }
         
         .cell.present { background-color: var(--success) !important; color: white !important; border-color: var(--success); }
         .cell.absent { background-color: var(--danger) !important; color: white !important; border-color: var(--danger); }
         .cell.halfday { background-color: var(--warning) !important; color: white !important; border-color: var(--warning); }
         .cell.overtime { background-color: var(--info) !important; color: white !important; border-color: var(--info); }
 
-        /* Progress Bar */
-        .progress-container { width: 100%; background-color: #e2e8f0; border-radius: 8px; margin: 8px 0; }
-        .progress-bar { width: 0%; height: 12px; background-color: var(--success); border-radius: 8px; text-align: center; color: white; font-size: 10px; line-height: 12px; }
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: 800; color: white; }
+        .badge-pending { background: var(--warning); }
+        .badge-paid { background: var(--success); }
+
+        .hidden { display: none !important; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -74,40 +86,49 @@
     <div class="app-header">
         <div>
             <h2>My Finance</h2>
-            <p>Personal Wealth & Attendance Manager</p>
+            <p>Smart Wealth & Universal AI Generator</p>
         </div>
         <button class="gear-btn" onclick="showPage('settings')">⚙️</button>
     </div>
 
-    <div class="content-body">
-        <!-- PAGE 1: DASHBOARD -->
-        <div id="pageDashboard">
+    <div class="content-body" id="dynamicContentBody">
+        <!-- DASHBOARD PAGE -->
+        <div id="pageDashboard" class="app-page">
             <div class="card balance-card">
-                <p style="margin:0; font-size: 13px; color: #64748b;">TOTAL BALANCE</p>
+                <p style="margin:0; font-size: 12px; font-weight: 700; color: #64748b;">TOTAL BALANCE</p>
                 <div class="balance-amount">₹<span id="balance">0.00</span></div>
-                <div class="sub-stats">
-                    <div>Income (+OT): <b style="color:var(--success);">₹<span id="totalIncome">0.00</span></b></div>
-                    <div>Expense: <b style="color:var(--danger);">₹<span id="totalExpense">0.00</span></b></div>
+                <div class="stats-grid">
+                    <div>Salary<br><b style="color:var(--success);">₹<span id="totalSalary">0.00</span></b></div>
+                    <div>Expense<br><b style="color:var(--danger);">₹<span id="totalExpense">0.00</span></b></div>
+                    <div>EMI Total<br><b style="color:var(--warning);">₹<span id="totalEMI">0.00</span></b></div>
                 </div>
             </div>
 
             <div class="card">
-                <h3 style="margin-top:0; color:var(--primary);">Quick Transaction</h3>
+                <h3 style="margin-top:0; color:var(--primary);">➕ Quick Transaction</h3>
                 <label>Description</label>
-                <input type="text" id="txDesc" placeholder="e.g. Salary, Food, Rent">
+                <input type="text" id="txDesc" placeholder="e.g. Salary, Rent, Grocery">
                 
                 <label>Amount (₹)</label>
                 <input type="number" id="txAmount" placeholder="Enter amount">
 
                 <div class="action-row">
-                    <button class="btn btn-success" onclick="addTransaction('income')">+ Income</button>
-                    <button class="btn btn-danger" onclick="addTransaction('expense')">- Expense</button>
+                    <button class="btn btn-success" onclick="addSalary()">+ Salary</button>
+                    <button class="btn btn-danger" onclick="addExpense()">- Expense</button>
                 </div>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--primary);">
+                <h3 style="margin-top:0; color:var(--primary);">🤖 Universal AI Assistant Generator</h3>
+                <label>Command (Type anything to add features/tabs or data):</label>
+                <input type="text" id="dashAiCmd" placeholder="e.g. add notes tab, add calculator, add salary 25000">
+                <button class="btn btn-info" onclick="runUniversalAI()">⚡ Run Universal AI</button>
+                <div id="aiOut" class="hidden" style="margin-top: 10px; font-size: 12px; font-weight: 700; color: var(--primary);"></div>
             </div>
         </div>
 
-        <!-- PAGE 2: CALENDAR & OT -->
-        <div id="pageCalendar" class="hidden">
+        <!-- LEAVE CALENDAR & OT -->
+        <div id="pageCalendar" class="app-page hidden">
             <div class="calendar-header">
                 <button class="btn" style="width: auto; padding: 6px 14px;" onclick="changeMonth(-1)">&lt;</button>
                 <h3 id="monthYearTitle" style="margin: 0; color:var(--primary);">Month Year</h3>
@@ -117,8 +138,8 @@
             <div class="calendar-grid" id="calendarGrid"></div>
 
             <div class="card" style="margin-top: 15px;">
-                <h4 style="margin-top: 0; text-align: center;">Monthly Summary</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+                <h4 style="margin-top: 0; text-align: center;">Monthly Leave Summary</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px;">
                     <p style="margin:4px 0;">🟢 Present: <b id="countPresent">0</b></p>
                     <p style="margin:4px 0;">🔴 Absent: <b id="countAbsent">0</b></p>
                     <p style="margin:4px 0;">🟠 Half Day: <b id="countHalfDay">0</b></p>
@@ -134,7 +155,7 @@
                     <button class="btn btn-warning" style="padding:8px;" onclick="setAttendance('halfday')">Half Day</button>
                     <button class="btn btn-info" style="padding:8px;" onclick="setAttendance('overtime')">Over Time</button>
                 </div>
-                <button class="btn" style="background:#64748b; padding:8px; margin-top:6px;" onclick="setAttendance('clear')">Clear Status</button>
+                <button class="btn" style="background:#64748b; padding:8px; margin-top:6px;" onclick="setAttendance('clear')">Clear</button>
             </div>
 
             <div class="card">
@@ -143,98 +164,65 @@
                 <input type="number" id="otSalary" placeholder="e.g., 25000">
                 <label>Days in Month</label>
                 <input type="number" id="otDays" value="30">
-                <button class="btn btn-info" onclick="calcOTRate()">Calculate Hourly OT Rate</button>
+                <button class="btn btn-info" onclick="calcOTRate()">Calculate Hourly Rate</button>
                 
                 <div id="otRateResult" style="margin-top: 8px; font-size: 13px; font-weight: bold; color: var(--info);"></div>
 
                 <hr style="margin: 12px 0; border:0; border-top:1px solid #e2e8f0;">
 
                 <label>OT Hours Worked</label>
-                <input type="number" id="otHours" placeholder="Enter OT Hours">
+                <input type="number" id="otHours" placeholder="Enter Hours">
                 <button class="btn btn-success" onclick="addOTToBalance()">Add OT Amount to Balance</button>
             </div>
         </div>
 
-        <!-- PAGE 3: SAVINGS GOALS -->
-        <div id="pageSavings" class="hidden">
+        <!-- EMI TRACKER WITH PAID/PENDING STATUS -->
+        <div id="pageEMI" class="app-page hidden">
             <div class="card">
-                <h3 style="margin-top:0; color:var(--primary);">🎯 Savings Goals</h3>
-                <label>Goal Name</label>
-                <input type="text" id="goalName" placeholder="e.g. New Bike, Emergency Fund">
-                <label>Target Amount (₹)</label>
-                <input type="number" id="goalTarget" placeholder="e.g. 50000">
-                <label>Saved Amount (₹)</label>
-                <input type="number" id="goalSaved" placeholder="e.g. 15000">
-                <button class="btn btn-success" onclick="saveGoal()">Save Goal</button>
+                <h3 style="margin-top:0; color:var(--warning);">💳 Loan & EMI Manager</h3>
+                <label>EMI Name</label>
+                <input type="text" id="emiName" placeholder="e.g. Bike Loan, Gadget EMI">
+                <label>Monthly Amount (₹)</label>
+                <input type="number" id="emiAmt" placeholder="e.g. 3500">
+                <button class="btn btn-warning" onclick="addEMI()">Add EMI</button>
             </div>
-            <div id="goalsList"></div>
+            <div id="emiList"></div>
         </div>
 
-        <!-- PAGE 4: LOAN / EMI TRACKER -->
-        <div id="pageLoan" class="hidden">
-            <div class="card">
-                <h3 style="margin-top:0; color:var(--primary);">💳 Loan & EMI Tracker</h3>
-                <label>Loan Provider / Details</label>
-                <input type="text" id="loanName" placeholder="e.g. Personal Loan, Bike EMI">
-                <label>Monthly EMI Amount (₹)</label>
-                <input type="number" id="loanEMI" placeholder="e.g. 3500">
-                <label>Due Date of Month</label>
-                <input type="number" id="loanDueDate" placeholder="e.g. 10th of every month">
-                <button class="btn btn-warning" onclick="saveLoan()">Add EMI Details</button>
-            </div>
-            <div id="loansList"></div>
-        </div>
-
-        <!-- PAGE 5: DAILY NOTES -->
-        <div id="pageNotes" class="hidden">
-            <div class="card">
-                <h3 style="margin-top:0; color:var(--primary);">📝 Daily Finance Notes</h3>
-                <label>Note Date</label>
-                <input type="date" id="noteDate">
-                <label>Note / Reminder</label>
-                <textarea id="noteText" rows="3" placeholder="Enter important reminders or financial notes..."></textarea>
-                <button class="btn btn-info" onclick="saveNote()">Add Note</button>
-            </div>
-            <div id="notesList"></div>
-        </div>
-
-        <!-- PAGE 6: SETTINGS LOGIN -->
-        <div id="pageSettingsLogin" class="hidden">
+        <!-- SETTINGS LOGIN -->
+        <div id="pageSettingsLogin" class="app-page hidden">
             <div class="card" style="text-align: center; padding: 25px;">
-                <h3 style="color:var(--primary);">🔒 Settings Security</h3>
-                <p style="font-size: 13px; color: #64748b;">Enter password to access Admin Settings</p>
-                <input type="password" id="passInput" placeholder="Enter Password (Surya@777)" style="text-align: center;">
-                <button class="btn" onclick="verifyPassword()">Unlock Settings</button>
+                <h3 style="color:var(--primary);">🔒 Passcode Protected</h3>
+                <p style="font-size: 13px; color: #64748b;">Enter passcode to unlock admin options</p>
+                <input type="password" id="passInput" placeholder="••••••••" style="text-align: center;">
+                <button class="btn" onclick="verifyPassword()">Unlock</button>
             </div>
         </div>
 
-        <!-- PAGE 7: SETTINGS PANEL -->
-        <div id="pageSettingsPanel" class="hidden">
+        <!-- SETTINGS PANEL -->
+        <div id="pageSettingsPanel" class="app-page hidden">
             <div class="card">
-                <h3 style="margin-top:0; color:var(--primary);">⚙️ Admin Options</h3>
-                <button class="btn btn-info" onclick="exportData()">📥 Backup Financial Data</button>
-                <button class="btn btn-danger" style="margin-top: 10px;" onclick="resetApp()">⚠️ Reset All App Data</button>
-                <button class="btn" style="background:#64748b; margin-top: 15px;" onclick="logoutSettings()">Lock / Logout</button>
+                <h3 style="margin-top:0; color:var(--primary);">⚙️ Admin & Backup Options</h3>
+                <button class="btn btn-info" onclick="alert('Backup completed successfully!')">📥 Export Backup</button>
+                <button class="btn btn-danger" style="margin-top: 10px;" onclick="resetApp()">⚠️ Reset App Data</button>
+                <button class="btn" style="background:#64748b; margin-top: 15px;" onclick="showPage('dashboard')">Lock Settings</button>
             </div>
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION BAR -->
-    <div class="nav-bar">
-        <button class="nav-item active" id="navDash" onclick="showPage('dashboard')">
+    <!-- BOTTOM NAV BAR -->
+    <div class="nav-bar" id="bottomNav">
+        <button class="nav-item active" id="navDashboard" onclick="showPage('dashboard')">
             <span>🏠</span>Home
         </button>
-        <button class="nav-item" id="navCal" onclick="showPage('calendar')">
-            <span>📅</span>Cal/OT
+        <button class="nav-item" id="navCalendar" onclick="showPage('calendar')">
+            <span>📅</span>Leave/OT
         </button>
-        <button class="nav-item" id="navSavings" onclick="showPage('savings')">
-            <span>🎯</span>Savings
-        </button>
-        <button class="nav-item" id="navLoan" onclick="showPage('loan')">
+        <button class="nav-item" id="navEMI" onclick="showPage('emi')">
             <span>💳</span>EMI
         </button>
-        <button class="nav-item" id="navNotes" onclick="showPage('notes')">
-            <span>📝</span>Notes
+        <button class="nav-item" id="navSettingsLogin" onclick="showPage('settingsLogin')">
+            <span>⚙️</span>Settings
         </button>
     </div>
 </div>
@@ -242,74 +230,199 @@
 <script>
     let state = {
         balance: 0,
-        totalIncome: 0,
-        totalExpense: 0,
+        salary: 0,
+        expense: 0,
+        emiTotal: 0,
         attendance: {},
         calculatedOTRate: 0,
-        goals: [],
-        loans: [],
-        notes: []
+        emis: [],
+        dynamicPages: {}
     };
 
     let currentDate = new Date();
     let selectedDateStr = null;
 
-    function showPage(page) {
-        const pages = ['Dashboard', 'Calendar', 'Savings', 'Loan', 'Notes', 'SettingsLogin', 'SettingsPanel'];
-        pages.forEach(p => document.getElementById('page' + p).classList.add('hidden'));
+    function showPage(pageId) {
+        document.querySelectorAll('.app-page').forEach(p => p.classList.add('hidden'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-        const navs = ['Dash', 'Cal', 'Savings', 'Loan', 'Notes'];
-        navs.forEach(n => {
-            const el = document.getElementById('nav' + n);
-            if(el) el.classList.remove('active');
-        });
+        const targetPage = document.getElementById('page' + pageId.charAt(0).toUpperCase() + pageId.slice(1));
+        const targetNav = document.getElementById('nav' + pageId.charAt(0).toUpperCase() + pageId.slice(1));
 
-        if (page === 'dashboard') {
-            document.getElementById('pageDashboard').classList.remove('hidden');
-            document.getElementById('navDash').classList.add('active');
-        } else if (page === 'calendar') {
-            document.getElementById('pageCalendar').classList.remove('hidden');
-            document.getElementById('navCal').classList.add('active');
-            renderCalendar();
-        } else if (page === 'savings') {
-            document.getElementById('pageSavings').classList.remove('hidden');
-            document.getElementById('navSavings').classList.add('active');
-            renderGoals();
-        } else if (page === 'loan') {
-            document.getElementById('pageLoan').classList.remove('hidden');
-            document.getElementById('navLoan').classList.add('active');
-            renderLoans();
-        } else if (page === 'notes') {
-            document.getElementById('pageNotes').classList.remove('hidden');
-            document.getElementById('navNotes').classList.add('active');
-            renderNotes();
-        } else if (page === 'settings') {
-            document.getElementById('pageSettingsLogin').classList.remove('hidden');
-        }
+        if (targetPage) targetPage.classList.remove('hidden');
+        if (targetNav) targetNav.classList.add('active');
+
+        if (pageId === 'calendar') renderCalendar();
+        if (pageId === 'emi') renderEMIs();
     }
 
-    function addTransaction(type) {
+    function addSalary() {
         const amt = parseFloat(document.getElementById('txAmount').value);
-        if (isNaN(amt) || amt <= 0) return alert('Please enter a valid amount');
-
-        if (type === 'income') {
-            state.balance += amt;
-            state.totalIncome += amt;
-        } else {
-            state.balance -= amt;
-            state.totalExpense += amt;
-        }
-
+        if (isNaN(amt) || amt <= 0) return alert('Enter valid salary amount');
+        state.salary += amt;
+        state.balance += amt;
         updateUI();
         document.getElementById('txAmount').value = '';
-        document.getElementById('txDesc').value = '';
-        alert('Transaction Saved Successfully!');
+    }
+
+    function addExpense() {
+        const amt = parseFloat(document.getElementById('txAmount').value);
+        if (isNaN(amt) || amt <= 0) return alert('Enter valid expense amount');
+        state.expense += amt;
+        state.balance -= amt;
+        updateUI();
+        document.getElementById('txAmount').value = '';
     }
 
     function updateUI() {
         document.getElementById('balance').innerText = state.balance.toFixed(2);
-        document.getElementById('totalIncome').innerText = state.totalIncome.toFixed(2);
-        document.getElementById('totalExpense').innerText = state.totalExpense.toFixed(2);
+        document.getElementById('totalSalary').innerText = state.salary.toFixed(2);
+        document.getElementById('totalExpense').innerText = state.expense.toFixed(2);
+        document.getElementById('totalEMI').innerText = state.emiTotal.toFixed(2);
+    }
+
+    // UNIVERSAL AI GENERATOR & COMMAND ENGINE
+    function runUniversalAI() {
+        const input = document.getElementById('dashAiCmd').value.trim();
+        const out = document.getElementById('aiOut');
+        if (!input) return alert('Type a command or feature to add');
+
+        out.classList.remove('hidden');
+        const lower = input.toLowerCase();
+
+        // 1. Transaction Command Execution
+        if (lower.includes('add salary') || lower.includes('salary')) {
+            const match = input.match(/\d+/);
+            if (match) {
+                const val = parseFloat(match[0]);
+                state.salary += val;
+                state.balance += val;
+                updateUI();
+                out.innerText = `✓ Executed: Added ₹${val} to Salary!`;
+            } else { out.innerText = '❌ Specify amount (e.g., add salary 25000)'; }
+        } else if (lower.includes('add expense') || lower.includes('expense')) {
+            const match = input.match(/\d+/);
+            if (match) {
+                const val = parseFloat(match[0]);
+                state.expense += val;
+                state.balance -= val;
+                updateUI();
+                out.innerText = `✓ Executed: Added ₹${val} to Expense!`;
+            } else { out.innerText = '❌ Specify amount (e.g., add expense 500)'; }
+        } else {
+            // 2. Dynamic Feature/Tab Generator Engine
+            let tabName = input.replace(/add|create|new|tab|page|feature/gi, '').trim();
+            if (!tabName) tabName = "Feature " + (Object.keys(state.dynamicPages).length + 1);
+            
+            const cleanId = tabName.replace(/[^a-zA-Z0-9]/g, '');
+            
+            if (!document.getElementById('page' + cleanId)) {
+                generateDynamicTab(cleanId, tabName);
+                out.innerText = `✨ AI Generated New Tab: "${tabName}" Added to Navigation!`;
+            } else {
+                showPage(cleanId);
+                out.innerText = `✓ Switched to Tab: "${tabName}"`;
+            }
+        }
+        document.getElementById('dashAiCmd').value = '';
+    }
+
+    function generateDynamicTab(cleanId, tabName) {
+        // Create Page DOM
+        const pageDiv = document.createElement('div');
+        pageDiv.id = 'page' + cleanId;
+        pageDiv.className = 'app-page hidden';
+        pageDiv.innerHTML = `
+            <div class="card">
+                <h3 style="margin-top:0; color:var(--primary);">✨ ${tabName}</h3>
+                <label>Add Item / Detail for ${tabName}:</label>
+                <input type="text" id="input_${cleanId}" placeholder="Enter ${tabName} detail...">
+                <button class="btn btn-success" onclick="addDynamicItem('${cleanId}')">Save to ${tabName}</button>
+            </div>
+            <div id="list_${cleanId}"></div>
+        `;
+        document.getElementById('dynamicContentBody').appendChild(pageDiv);
+
+        // Create Navigation Button
+        const navBtn = document.createElement('button');
+        navBtn.id = 'nav' + cleanId;
+        navBtn.className = 'nav-item';
+        navBtn.onclick = () => showPage(cleanId);
+        navBtn.innerHTML = `<span>📌</span>${tabName.substring(0, 8)}`;
+        
+        const bottomNav = document.getElementById('bottomNav');
+        bottomNav.insertBefore(navBtn, document.getElementById('navSettingsLogin'));
+
+        state.dynamicPages[cleanId] = [];
+        showPage(cleanId);
+    }
+
+    function addDynamicItem(cleanId) {
+        const val = document.getElementById('input_' + cleanId).value;
+        if (!val) return alert('Enter detail!');
+
+        state.dynamicPages[cleanId].push(val);
+        document.getElementById('input_' + cleanId).value = '';
+
+        const listDiv = document.getElementById('list_' + cleanId);
+        listDiv.innerHTML = '';
+        state.dynamicPages[cleanId].forEach((item, idx) => {
+            listDiv.innerHTML += `
+                <div class="card" style="margin-bottom:8px; padding:12px;">
+                    <span style="font-size:13px; font-weight:700;">${idx + 1}. ${item}</span>
+                </div>`;
+        });
+    }
+
+    // EMI LOGIC
+    function addEMI() {
+        const name = document.getElementById('emiName').value;
+        const amt = parseFloat(document.getElementById('emiAmt').value);
+
+        if (!name || isNaN(amt)) return alert('Enter EMI details');
+
+        state.emis.push({ id: Date.now(), name, amt, status: 'Pending' });
+        state.emiTotal += amt;
+        updateUI();
+        document.getElementById('emiName').value = '';
+        document.getElementById('emiAmt').value = '';
+        renderEMIs();
+    }
+
+    function markEmiPaid(id) {
+        const emi = state.emis.find(e => e.id === id);
+        if (emi && emi.status === 'Pending') {
+            emi.status = 'Paid';
+            state.expense += emi.amt;
+            state.balance -= emi.amt;
+            updateUI();
+            renderEMIs();
+            alert(`EMI Paid! ₹${emi.amt} added to Expenses.`);
+        }
+    }
+
+    function renderEMIs() {
+        const div = document.getElementById('emiList');
+        div.innerHTML = '';
+        state.emis.forEach(e => {
+            const badge = e.status === 'Paid' 
+                ? `<span class="status-badge badge-paid">Paid</span>` 
+                : `<span class="status-badge badge-pending">Pending</span>`;
+            
+            const btn = e.status === 'Pending' 
+                ? `<button class="btn btn-success" style="padding:6px; font-size:12px; margin-top:6px;" onclick="markEmiPaid(${e.id})">Mark as Paid</button>` 
+                : `<small style="color:var(--success); font-weight:bold;">Added to Expense ✓</small>`;
+
+            div.innerHTML += `
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h4 style="margin:0; color:var(--warning);">${e.name}</h4>
+                        ${badge}
+                    </div>
+                    <p style="margin:6px 0; font-size:13px;">Monthly EMI: <b>₹${e.amt}</b></p>
+                    ${btn}
+                </div>`;
+        });
     }
 
     // CALENDAR & OT
@@ -322,8 +435,7 @@
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         document.getElementById('monthYearTitle').innerText = `${monthNames[month]} ${year}`;
 
-        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        dayNames.forEach(d => {
+        ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].forEach(d => {
             const div = document.createElement('div');
             div.className = 'day-name';
             div.innerText = d;
@@ -380,7 +492,7 @@
     function calcOTRate() {
         const salary = parseFloat(document.getElementById('otSalary').value);
         const days = parseFloat(document.getElementById('otDays').value);
-        if (isNaN(salary) || salary <= 0 || isNaN(days) || days <= 0) return alert('Enter valid salary and month days');
+        if (isNaN(salary) || salary <= 0 || isNaN(days) || days <= 0) return alert('Enter valid salary and days');
 
         state.calculatedOTRate = salary / (days * 11);
         document.getElementById('otRateResult').innerHTML = `Hourly OT Rate: <b>₹${state.calculatedOTRate.toFixed(2)}</b> / hr`;
@@ -389,7 +501,7 @@
     function addOTToBalance() {
         const hours = parseFloat(document.getElementById('otHours').value);
         if (isNaN(hours) || hours <= 0) return alert('Enter valid OT hours');
-        
+
         if (state.calculatedOTRate <= 0) {
             const salary = parseFloat(document.getElementById('otSalary').value);
             const days = parseFloat(document.getElementById('otDays').value);
@@ -402,121 +514,29 @@
 
         const otTotal = hours * state.calculatedOTRate;
         state.balance += otTotal;
-        state.totalIncome += otTotal;
+        state.salary += otTotal;
         updateUI();
         document.getElementById('otHours').value = '';
         alert(`Successfully Added ₹${otTotal.toFixed(2)} OT pay to Balance!`);
     }
 
-    // SAVINGS GOALS
-    function saveGoal() {
-        const name = document.getElementById('goalName').value;
-        const target = parseFloat(document.getElementById('goalTarget').value);
-        const saved = parseFloat(document.getElementById('goalSaved').value) || 0;
-
-        if (!name || isNaN(target) || target <= 0) return alert('Please enter valid Goal Name and Target!');
-
-        state.goals.push({ name, target, saved });
-        document.getElementById('goalName').value = '';
-        document.getElementById('goalTarget').value = '';
-        document.getElementById('goalSaved').value = '';
-        renderGoals();
-    }
-
-    function renderGoals() {
-        const div = document.getElementById('goalsList');
-        div.innerHTML = '';
-        state.goals.forEach((g, i) => {
-            const pct = Math.min(100, Math.round((g.saved / g.target) * 100));
-            div.innerHTML += `
-                <div class="card">
-                    <h4 style="margin:0;">${g.name}</h4>
-                    <p style="margin:4px 0; font-size:13px; color:#64748b;">Target: ₹${g.target} | Saved: ₹${g.saved}</p>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width:${pct}%;">${pct}%</div>
-                    </div>
-                </div>`;
-        });
-    }
-
-    // LOANS
-    function saveLoan() {
-        const name = document.getElementById('loanName').value;
-        const emi = parseFloat(document.getElementById('loanEMI').value);
-        const due = document.getElementById('loanDueDate').value;
-
-        if (!name || isNaN(emi)) return alert('Enter valid details!');
-
-        state.loans.push({ name, emi, due });
-        document.getElementById('loanName').value = '';
-        document.getElementById('loanEMI').value = '';
-        document.getElementById('loanDueDate').value = '';
-        renderLoans();
-    }
-
-    function renderLoans() {
-        const div = document.getElementById('loansList');
-        div.innerHTML = '';
-        state.loans.forEach(l => {
-            div.innerHTML += `
-                <div class="card">
-                    <h4 style="margin:0; color:var(--danger);">${l.name}</h4>
-                    <p style="margin:4px 0; font-size:13px;">Monthly EMI: <b>₹${l.emi}</b></p>
-                    <p style="margin:0; font-size:12px; color:#64748b;">Due Date: Day ${l.due || 'N/A'}</p>
-                </div>`;
-        });
-    }
-
-    // NOTES
-    function saveNote() {
-        const date = document.getElementById('noteDate').value || new Date().toISOString().split('T')[0];
-        const text = document.getElementById('noteText').value;
-
-        if (!text) return alert('Enter note text!');
-
-        state.notes.push({ date, text });
-        document.getElementById('noteText').value = '';
-        renderNotes();
-    }
-
-    function renderNotes() {
-        const div = document.getElementById('notesList');
-        div.innerHTML = '';
-        state.notes.forEach(n => {
-            div.innerHTML += `
-                <div class="card">
-                    <small style="color:var(--primary); font-weight:bold;">${n.date}</small>
-                    <p style="margin:5px 0 0 0; font-size:13px;">${n.text}</p>
-                </div>`;
-        });
-    }
-
     // SETTINGS
     function verifyPassword() {
-        const pass = document.getElementById('passInput').value;
-        if (pass === 'Surya@777') {
+        if (document.getElementById('passInput').value === 'Surya@777') {
             document.getElementById('pageSettingsLogin').classList.add('hidden');
             document.getElementById('pageSettingsPanel').classList.remove('hidden');
             document.getElementById('passInput').value = '';
         } else {
-            alert('Wrong Password! Use Surya@777');
+            alert('Wrong Passcode! Use Surya@777');
         }
     }
 
-    function logoutSettings() {
-        showPage('dashboard');
-    }
-
-    function exportData() {
-        alert("Financial data backup generated successfully!");
-    }
-
     function resetApp() {
-        if(confirm("Are you sure you want to reset all data?")) {
-            state = { balance: 0, totalIncome: 0, totalExpense: 0, attendance: {}, calculatedOTRate: 0, goals: [], loans: [], notes: [] };
+        if(confirm("Reset all app data?")) {
+            state = { balance: 0, salary: 0, expense: 0, emiTotal: 0, attendance: {}, calculatedOTRate: 0, emis: [], dynamicPages: {} };
             updateUI();
             showPage('dashboard');
-            alert("App data has been reset.");
+            alert("App data reset completed.");
         }
     }
 </script>
